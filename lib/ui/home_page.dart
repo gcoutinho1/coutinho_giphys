@@ -55,9 +55,56 @@ class _HomePageState extends State<HomePage> {
               style: TextStyle(color: Colors.white, fontSize: 18),
               textAlign: TextAlign.left,
             ),
+          ),
+          Expanded(
+            child: FutureBuilder(
+              future: _getGifs(),
+              builder: (context, snapshot){
+                  switch(snapshot.connectionState){
+                    case ConnectionState.waiting:
+                    case ConnectionState.none:
+                      return Container(
+                        width: 200,
+                        height: 200,
+                        alignment: Alignment.center,
+                        child: CircularProgressIndicator(
+                          valueColor: AlwaysStoppedAnimation<Color> (Colors.white),
+                          strokeWidth: 5,
+                        ),
+                      );
+                    default:
+                      if (snapshot.hasError)
+                        return Container();
+                      else return _createGifTable(context, snapshot);
+                  }
+              }
+              ),
           )
         ],
       ),
     );
+  }
+
+  Widget _createGifTable(BuildContext context, AsyncSnapshot snapshot){
+    return GridView.builder(
+        padding: EdgeInsets.all(10),
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 3,
+              crossAxisSpacing: 10,
+              mainAxisSpacing: 10,
+        ),
+        itemCount: snapshot.data["data"].length,
+        itemBuilder: (context, index){
+          return GestureDetector(
+            child: Image.network(snapshot.data["data"] [index] ["images"] ["fixed_height"] ["url"],
+            height: 300,
+            width: 300,
+              fit: BoxFit.cover,
+            ),
+          );
+        }
+
+    );
+
   }
 }
