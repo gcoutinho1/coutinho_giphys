@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:coutinho_giphys/ui/gif_activity.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
@@ -117,6 +118,11 @@ class _HomePageState extends State<HomePage> {
                 width: 300,
                 fit: BoxFit.cover,
               ),
+              onTap: (){
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => GifPage(snapshot.data["data"][index]))
+                );
+              },
             );
           else
             return Container(
