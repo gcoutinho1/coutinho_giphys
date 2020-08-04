@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:share/share.dart';
 
 class GifPage extends StatelessWidget {
-
   final Map _gifData;
 
   GifPage(this._gifData);
@@ -16,7 +15,7 @@ class GifPage extends StatelessWidget {
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.share),
-            onPressed: (){
+            onPressed: () {
               Share.share(_gifData["images"]["original"]["url"]);
             },
           )
